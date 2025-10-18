@@ -2,60 +2,130 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Wedding Invitation Generator</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      max-width: 700px;
-      margin: auto;
-      padding: 20px;
+    :root {
+      --primary-color: #25D366;
+      --font-base: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-    textarea {
+
+    body {
+      font-family: var(--font-base);
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 20px;
+      background: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      margin-top: 30px;
+    }
+
+    h1 {
+      font-size: 1.8em;
+      color: #333;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 15px;
+    }
+
+    input, button, textarea {
       width: 100%;
-      height: 300px;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 1em;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      margin-top: 20px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #1ebe5d;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 200px;
       margin-top: 10px;
       font-family: 'Courier New', monospace;
     }
-    input, button {
-      padding: 8px;
-      margin: 5px 0;
-      width: 100%;
-    }
-    a {
-      display: inline-block;
-      margin-top: 10px;
-      background: #25D366;
+
+    a.wa-button {
+      display: block;
+      margin-top: 20px;
+      background: var(--primary-color);
       color: white;
-      padding: 10px;
+      text-align: center;
+      padding: 12px;
       text-decoration: none;
+      font-weight: bold;
       border-radius: 5px;
+      transition: background 0.3s;
+    }
+
+    a.wa-button:hover {
+      background: #1ebe5d;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 1.5em;
+      }
+
+      textarea {
+        min-height: 150px;
+      }
     }
   </style>
 </head>
 <body>
 
-  <h1>Wedding Invitation Generator</h1>
+  <div class="container">
+    <h1>Wedding Invitation Generator</h1>
 
-  <label>Nama Tamu:</label>
-  <input type="text" id="guestName" placeholder="Contoh: John Doe">
+    <label for="guestName">Nama Tamu:</label>
+    <input type="text" id="guestName" placeholder="Contoh: John Doe">
 
-  <label>Nomor WhatsApp (opsional, tanpa +):</label>
-  <input type="text" id="phoneNumber" placeholder="Contoh: 6281234567890">
+    <label for="phoneNumber">Nomor WhatsApp (opsional, tanpa +):</label>
+    <input type="text" id="phoneNumber" placeholder="Contoh: 6281234567890">
 
-  <button onclick="generateMessage()">Buat Undangan</button>
+    <button onclick="generateMessage()">Buat Undangan</button>
 
-  <h3>Undangan yang dihasilkan:</h3>
-  <textarea id="messageOutput" readonly></textarea>
+    <label for="messageOutput">Undangan yang dihasilkan:</label>
+    <textarea id="messageOutput" readonly placeholder="Undangan akan muncul di sini..."></textarea>
 
-  <div id="waLinkArea" style="display:none;">
-    <h3>Kirim via WhatsApp:</h3>
-    <a href="#" id="waLink" target="_blank">Kirim ke WhatsApp</a>
+    <div id="waLinkArea" style="display:none;">
+      <a href="#" id="waLink" class="wa-button" target="_blank">Kirim ke WhatsApp</a>
+    </div>
   </div>
 
   <script>
     function generateMessage() {
       const name = document.getElementById('guestName').value.trim();
       const phone = document.getElementById('phoneNumber').value.trim();
+      const output = document.getElementById('messageOutput');
+      const waArea = document.getElementById('waLinkArea');
+      const waLink = document.getElementById('waLink');
+
       if (!name) {
         alert("Masukkan nama tamu terlebih dahulu.");
         return;
@@ -63,19 +133,40 @@
 
       const nameEncoded = name.replace(/\s+/g, '+');
 
-      const message = `Kepada Yth.\n*${name}*\n_____________________\n\n*Assalamu'alaikum Warahmatullahi Wabarakatuh*\n\nTanpa mengurangi rasa hormat, perkenankan kami mengundang Bapak/Ibu/Saudara/i untuk menghadiri acara pernikahan kami.\n\nUntuk informasi detail Acara, Lokasi, dan Waktu lebih lengkap bisa akses link undangan berikut:\nhttps://tibra-invitation.id//bara-nisa/?to=${nameEncoded}\n\nMerupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu di acara pernikahan kami.\nKarena keterbatasan jarak dan waktu tidak dapat mengirimkan undangan ini secara langsung, maka melalui e-invitation ini dapat menjadi pengganti undangan resmi sehingga tujuan kami tersampaikan.\n\n*Wassalamu'alaikum Warahmatullahi Wabarakatuh*\n\nHormat kami,\nBara dan Nisa\n____________________\n\n_Spread your happiness with tibradigital.id_`;
+      const message = `Kepada Yth.
+*${name}*
+_____________________
 
-      document.getElementById('messageOutput').value = message;
+*Assalamu'alaikum Warahmatullahi Wabarakatuh*
+
+Tanpa mengurangi rasa hormat, perkenankan kami mengundang Bapak/Ibu/Saudara/i untuk menghadiri acara pernikahan kami.
+
+Untuk informasi detail Acara, Lokasi, dan Waktu lebih lengkap bisa akses link undangan berikut:
+https://tibra-invitation.id//bara-nisa/?to=${nameEncoded}
+
+Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu di acara pernikahan kami.
+Karena keterbatasan jarak dan waktu tidak dapat mengirimkan undangan ini secara langsung, maka melalui e-invitation ini dapat menjadi pengganti undangan resmi sehingga tujuan kami tersampaikan.
+
+*Wassalamu'alaikum Warahmatullahi Wabarakatuh*
+
+Hormat kami,
+Bara dan Nisa
+____________________
+
+_Spread your happiness with tibradigital.id_`;
+
+      output.value = message;
 
       if (phone) {
         const encodedMsg = encodeURIComponent(message);
-        const waLink = `https://wa.me/${phone}?text=${encodedMsg}`;
-        document.getElementById('waLink').href = waLink;
-        document.getElementById('waLinkArea').style.display = 'block';
+        const link = `https://wa.me/${phone}?text=${encodedMsg}`;
+        waLink.href = link;
+        waArea.style.display = 'block';
       } else {
-        document.getElementById('waLinkArea').style.display = 'none';
+        waArea.style.display = 'none';
       }
     }
   </script>
+
 </body>
 </html>
