@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Wedding Invitation Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 700px;
+      margin: auto;
+      padding: 20px;
+    }
+    textarea {
+      width: 100%;
+      height: 300px;
+      margin-top: 10px;
+      font-family: 'Courier New', monospace;
+    }
+    input, button {
+      padding: 8px;
+      margin: 5px 0;
+      width: 100%;
+    }
+    a {
+      display: inline-block;
+      margin-top: 10px;
+      background: #25D366;
+      color: white;
+      padding: 10px;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Wedding Invitation Generator</h1>
+
+  <label>Nama Tamu:</label>
+  <input type="text" id="guestName" placeholder="Contoh: John Doe">
+
+  <label>Nomor WhatsApp (opsional, tanpa +):</label>
+  <input type="text" id="phoneNumber" placeholder="Contoh: 6281234567890">
+
+  <button onclick="generateMessage()">Buat Undangan</button>
+
+  <h3>Undangan yang dihasilkan:</h3>
+  <textarea id="messageOutput" readonly></textarea>
+
+  <div id="waLinkArea" style="display:none;">
+    <h3>Kirim via WhatsApp:</h3>
+    <a href="#" id="waLink" target="_blank">Kirim ke WhatsApp</a>
+  </div>
+
+  <script>
+    function generateMessage() {
+      const name = document.getElementById('guestName').value.trim();
+      const phone = document.getElementById('phoneNumber').value.trim();
+      if (!name) {
+        alert("Masukkan nama tamu terlebih dahulu.");
+        return;
+      }
+
+      const nameEncoded = name.replace(/\s+/g, '+');
+
+      const message = `Kepada Yth.\n*${name}*\n_____________________\n\n*Assalamu'alaikum Warahmatullahi Wabarakatuh*\n\nTanpa mengurangi rasa hormat, perkenankan kami mengundang Bapak/Ibu/Saudara/i untuk menghadiri acara pernikahan kami.\n\nUntuk informasi detail Acara, Lokasi, dan Waktu lebih lengkap bisa akses link undangan berikut:\nhttps://tibra-invitation.id//bara-nisa/?to=${nameEncoded}\n\nMerupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu di acara pernikahan kami.\nKarena keterbatasan jarak dan waktu tidak dapat mengirimkan undangan ini secara langsung, maka melalui e-invitation ini dapat menjadi pengganti undangan resmi sehingga tujuan kami tersampaikan.\n\n*Wassalamu'alaikum Warahmatullahi Wabarakatuh*\n\nHormat kami,\nBara dan Nisa\n____________________\n\n_Spread your happiness with tibradigital.id_`;
+
+      document.getElementById('messageOutput').value = message;
+
+      if (phone) {
+        const encodedMsg = encodeURIComponent(message);
+        const waLink = `https://wa.me/${phone}?text=${encodedMsg}`;
+        document.getElementById('waLink').href = waLink;
+        document.getElementById('waLinkArea').style.display = 'block';
+      } else {
+        document.getElementById('waLinkArea').style.display = 'none';
+      }
+    }
+  </script>
+</body>
+</html>
