@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Wedding Invitation Generator</title>
   <style>
     :root {
-      --primary-color: #25D366;
+      --primary-color: #25d366;
       --font-base: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
@@ -22,7 +22,7 @@
       margin: 0 auto;
       padding: 20px;
       background: white;
-      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
       margin-top: 30px;
     }
 
@@ -39,7 +39,9 @@
       margin-top: 15px;
     }
 
-    input, button, textarea {
+    input,
+    button,
+    textarea {
       width: 100%;
       padding: 10px;
       margin-top: 5px;
@@ -53,7 +55,7 @@
       background-color: var(--primary-color);
       color: white;
       border: none;
-      margin-top: 20px;
+      margin-top: 10px;
       cursor: pointer;
       transition: background 0.3s;
     }
@@ -86,6 +88,12 @@
       background: #1ebe5d;
     }
 
+    .button-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
     @media (max-width: 600px) {
       h1 {
         font-size: 1.5em;
@@ -98,33 +106,35 @@
   </style>
 </head>
 <body>
-
   <div class="container">
     <h1>Wedding Invitation Generator</h1>
 
     <label for="guestName">Nama Tamu:</label>
-    <input type="text" id="guestName" placeholder="Contoh: John Doe">
+    <input type="text" id="guestName" placeholder="Contoh: John Doe" />
 
     <label for="phoneNumber">Nomor WhatsApp (opsional, tanpa +):</label>
-    <input type="text" id="phoneNumber" placeholder="Contoh: 6281234567890">
+    <input type="text" id="phoneNumber" placeholder="Contoh: 6281234567890" />
 
-    <button onclick="generateMessage()">Buat Undangan</button>
+    <div class="button-group">
+      <button onclick="generateMessage('short')">Buat Undangan (Non Muslim)</button>
+      <button onclick="generateMessage('full')">Buat Undangan (Muslim)</button>
+    </div>
 
     <label for="messageOutput">Undangan yang dihasilkan:</label>
     <textarea id="messageOutput" readonly placeholder="Undangan akan muncul di sini..."></textarea>
 
-    <div id="waLinkArea" style="display:none;">
-      <a href="#" id="waLink" class="wa-button" target="_blank">Kirim ke WhatsApp</a>
+    <div id="waLinkArea" style="display: none">
+      <a href="#" id="waLink" class="wa-button" target="_blank">📩 Kirim ke WhatsApp</a>
     </div>
   </div>
 
   <script>
-    function generateMessage() {
-      const name = document.getElementById('guestName').value.trim();
-      const phone = document.getElementById('phoneNumber').value.trim();
-      const output = document.getElementById('messageOutput');
-      const waArea = document.getElementById('waLinkArea');
-      const waLink = document.getElementById('waLink');
+    function generateMessage(type) {
+      const name = document.getElementById("guestName").value.trim();
+      const phone = document.getElementById("phoneNumber").value.trim();
+      const output = document.getElementById("messageOutput");
+      const waArea = document.getElementById("waLinkArea");
+      const waLink = document.getElementById("waLink");
 
       if (!name) {
         alert("Masukkan nama tamu terlebih dahulu.");
@@ -132,28 +142,15 @@
       }
 
       const nameEncoded = name.replace(/\s+/g, '+');
+      const baseLink = `https://tibra-invitation.id//bara-nisa/?to=${nameEncoded}`;
 
-      const message = `Kepada Yth.
-*${name}*
-_____________________
+      let message = '';
 
-*Assalamu'alaikum Warahmatullahi Wabarakatuh*
-
-Tanpa mengurangi rasa hormat, perkenankan kami mengundang Bapak/Ibu/Saudara/i untuk menghadiri acara pernikahan kami.
-
-Untuk informasi detail Acara, Lokasi, dan Waktu lebih lengkap bisa akses link undangan berikut:
-https://tibra-invitation.id//bara-nisa/?to=${nameEncoded}
-
-Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu di acara pernikahan kami.
-Karena keterbatasan jarak dan waktu tidak dapat mengirimkan undangan ini secara langsung, maka melalui e-invitation ini dapat menjadi pengganti undangan resmi sehingga tujuan kami tersampaikan.
-
-*Wassalamu'alaikum Warahmatullahi Wabarakatuh*
-
-Hormat kami,
-Bara dan Nisa
-____________________
-
-_Spread your happiness with tibradigital.id_`;
+      if (type === 'short') {
+        message = `Kepada Yth.\n*${name}*\n_____________________\n\nTanpa mengurangi rasa hormat, perkenankan kami mengundang Bapak/Ibu/Saudara/i untuk menghadiri acara pernikahan kami.\n\nUntuk informasi detail Acara, Lokasi, dan Waktu lebih lengkap bisa akses link undangan berikut:\n${baseLink}\n\nMerupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu di acara pernikahan kami.\nKarena keterbatasan jarak dan waktu tidak dapat mengirimkan undangan ini secara langsung, maka melalui e-invitation ini dapat menjadi pengganti undangan resmi sehingga tujuan kami tersampaikan.\n\nHormat kami,\nBara dan Nisa\n____________________\n\n_Spread your happiness with tibradigital.id_`;
+      } else {
+        message = `Kepada Yth.\n*${name}*\n_____________________\n\n*Assalamu'alaikum Warahmatullahi Wabarakatuh*\n\nTanpa mengurangi rasa hormat, perkenankan kami mengundang Bapak/Ibu/Saudara/i untuk menghadiri acara pernikahan kami.\n\nUntuk informasi detail Acara, Lokasi, dan Waktu lebih lengkap bisa akses link undangan berikut:\n${baseLink}\n\nMerupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu di acara pernikahan kami.\nKarena keterbatasan jarak dan waktu tidak dapat mengirimkan undangan ini secara langsung, maka melalui e-invitation ini dapat menjadi pengganti undangan resmi sehingga tujuan kami tersampaikan.\n\n*Wassalamu'alaikum Warahmatullahi Wabarakatuh*\n\nHormat kami,\nBara dan Nisa\n____________________\n\n_Spread your happiness with tibradigital.id_`;
+      }
 
       output.value = message;
 
@@ -161,12 +158,11 @@ _Spread your happiness with tibradigital.id_`;
         const encodedMsg = encodeURIComponent(message);
         const link = `https://wa.me/${phone}?text=${encodedMsg}`;
         waLink.href = link;
-        waArea.style.display = 'block';
+        waArea.style.display = "block";
       } else {
-        waArea.style.display = 'none';
+        waArea.style.display = "none";
       }
     }
   </script>
-
 </body>
 </html>
